@@ -18,10 +18,6 @@ Le fichier d'entrée devrait contenir des colonnes comme suit :
 |------------|--------|------|------|------|
 | 2022-01-01 | 12345  | 40   | 100  | 30   |
 
-## Sauvegarde
-
-Après nettoyage, les données sont sauvegardées dans un nouveau fichier `cleaned_air_quality.csv`.
-
 # Prédiction de la qualité de l'air avec un arbre de décision
 
 Ce script utilise un **arbre de décision** pour classifier la qualité de l'air en fonction des concentrations de polluants (`no2`, `o3`, `pm10`). L'objectif est de prédire si la qualité de l'air est **"Bonne"**, **"Moyenne"**, ou **"Faible"**.
