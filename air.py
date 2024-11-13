@@ -10,7 +10,7 @@ df = pd.read_csv("indices_QA_commune_IDF_2016.csv", sep=',')  # Remplace par le 
 # Afficher les premières lignes pour vérifier la structure des données
 print(df.head())
 
-# 1. Création de la colonne 'air_quality' en fonction des seuils
+# Création de la colonne 'air_quality' en fonction des seuils
 def classify_air_quality(row):
     # Définir les seuils pour chaque polluant
     if row['no2'] > 40 or row['o3'] > 180 or row['pm10'] > 50:  # Faible
@@ -23,7 +23,7 @@ def classify_air_quality(row):
 # Appliquer la fonction pour créer la colonne 'air_quality'
 df['air_quality'] = df.apply(classify_air_quality, axis=1)
 
-# 2. Encodage des variables catégorielles (target)
+# Encodage des variables catégorielles (target)
 le = LabelEncoder()
 df['air_quality'] = le.fit_transform(df['air_quality'])
 
@@ -37,26 +37,26 @@ df = df[(df['no2'] >= 0) & (df['o3'] >= 0) & (df['pm10'] >= 0)]
 # Si un doublon existe pour une même date et un même "ninsee", on pourrait vouloir conserver la première entrée seulement
 df = df.drop_duplicates(subset=['date', 'ninsee'], keep='first')
 
-# 3. Sélectionner les variables explicatives (features) et la variable cible (target)
+# Sélectionner les variables explicatives (features) et la variable cible (target)
 X = df[['no2', 'o3', 'pm10']]  # Variables explicatives
 y = df['air_quality']  # Variable cible (air_quality)
 
-# 4. Diviser les données en ensembles d'entraînement et de test
+# Diviser les données en ensembles d'entraînement et de test
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
-# 5. Créer et entraîner l'arbre de décision avec le critère de Gini
+#  Créer et entraîner l'arbre de décision avec le critère de Gini
 clf = DecisionTreeClassifier(criterion='gini', random_state=42)
 clf.fit(X_train, y_train)
 
-# 6. Prédire les résultats sur l'ensemble de test
+# Prédire les résultats sur l'ensemble de test
 y_pred = clf.predict(X_test)
 
-# 7. Afficher les résultats
+# Afficher les résultats
 print(f"Exactitude du modèle : {accuracy_score(y_test, y_pred):.4f}")
 print("Rapport de classification :")
 print(classification_report(y_test, y_pred, target_names=le.classes_))
 
-# 8. Visualisation de l'arbre de décision
+# Visualisation de l'arbre de décision
 import matplotlib.pyplot as plt
 from sklearn.tree import plot_tree
 
